@@ -1,0 +1,10 @@
+package interfaces;
+
+import animals.Human;
+
+public interface Saleable {
+    void sell(Human seller, Human buyer, Double price);
+
+}
+
+//Jak zaimportować interface jeśli mamy go w folderze source, np. src/Saleable i chcemy zaimportować do klasy znajdującej się jakimś folderze, np src/animals/human?

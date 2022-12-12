@@ -1,6 +1,8 @@
 package devices;
 
-public abstract class Device {
+import interfaces.Saleable;
+
+public abstract class Device implements Saleable {
     final String producer;
     final String model;
     final Integer yearOfProduction;
@@ -26,6 +28,7 @@ public abstract class Device {
 
     abstract void turnOn();
 
+    @Override
     public String toString() {
         return "Producent: " + producer + ", model: " + model + ",rok produkcji: " + yearOfProduction;
     }

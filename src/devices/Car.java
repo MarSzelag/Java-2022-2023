@@ -1,9 +1,12 @@
 package devices;
 
-public class Car extends Device {
+import animals.Human;
+import interfaces.Saleable;
+
+public class Car extends Device implements Saleable {
     Double weight;
     Integer speed;
-    Double value;
+    Double value = 0.0;
 
     public Car(String producer, String model, Integer yearOfProduction, Double weight, Integer speed) {
         super(producer, model, yearOfProduction);
@@ -44,9 +47,29 @@ public class Car extends Device {
         return model.equals(car.model) &&
                 producer.equals(car.producer) &&
                 weight.doubleValue() == car.weight.doubleValue() && //Jeśli nie porównam za pomocą .doubleValue, to będę porównywał referencje, a nie wartości.
-                speed.intValue() == car.speed.intValue(); //&&
-        // value.doubleValue() == car.value.doubleValue();
+                speed.intValue() == car.speed.intValue() &&
+                value.doubleValue() == car.value.doubleValue();
     }
 
+    @Override
+    public void sell(Human seller, Human buyer, Double price) {
+        if (seller.getCar() == null) {
+            System.out.println("Sprzedający nie posiada samochodu na sprzedaż");
+        } else if (seller.equals(buyer)) {
+            System.out.println("Nie możesz odsprzedawać sam sobie.");
+        } else if (buyer.getCash() < price) {
+            System.out.println("Nie masz wystarczającej ilości pieniędzy. Za taką kwotę nie sprzedam samochodu.");
+        } else if (price <= 0.00) {
+            System.out.println("Coś jest nie tak z ceną. Powinna być większa niż 0.");
+        } else if (seller.getCar().getClass() != null) {
+            System.out.println("Pobieram pieniądze od kupującego i przekazuję sprzedającemu");
+            buyer.setCash(-price);
+            seller.setCash(price);
+            System.out.println("Przekazuję samochód. Udanej jazdy!");
+            buyer.setCar(seller.getCar());
+            seller.setCar(null);
+            System.out.println("Gratuluję udanej transakcji!!!");
+        } else System.out.println("Coś w systemie poszło nie tak.");
+    }
 
 }
