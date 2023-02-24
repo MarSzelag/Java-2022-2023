@@ -1,4 +1,4 @@
-package animals;
+package creatures;
 
 import devices.Car;
 import devices.Phone;
@@ -81,4 +81,13 @@ public class Human extends Animal {
         return "Imię: " + name + ", nazwisko: " + surname + ", pensja: " + salary + ", samochód: " + car; //Dlaczego ó i kawałek dalej w konsoli jest podkreślone na niebiesko?
     }
 
+    @Override
+    public void feed() {
+        System.out.println("Wszamam " );
+    }
+
+    @Override
+    public void feed(Double foodWeight) {
+        System.out.println("Wszamam " + foodWeight + " kg żarła." );
+    }
 }

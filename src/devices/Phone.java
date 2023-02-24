@@ -1,14 +1,24 @@
 package devices;
 
 
-import animals.Human;
+import creatures.Human;
 import interfaces.Saleable;
+
+import java.net.URL;
+import java.util.List;
 
 public class Phone extends Device implements Saleable {
 
     Double screenSize;
     Boolean isAndroid;
     Integer id = 0;
+
+    String appName, appVersion, serverAddress;
+
+    static final String defaultserverAddress = "https://catchanapp.com";
+    static final String defaultProtocol = "https";
+    static final String defaultVersionName = "2.15";
+    List<String> appNameList;
 
     public Phone(String producer, String model, Integer yearOfProduction, Double screenSize, Boolean isAndroid) {
         super(producer, model, yearOfProduction);
@@ -63,4 +73,47 @@ public class Phone extends Device implements Saleable {
             System.out.println("Gratuluję udanej transakcji!!!");
         } else System.out.println("Coś w systemie poszło nie tak.");
     }
+
+    public void installAnApp(String appName){
+        System.out.println("Przyjmuję nazwę aplikacji do zainstalowania...");
+        this.appName = appName;
+        System.out.println("Instaluję aplikację...");
+        System.out.println("Aplikacja: " + this.appName + " została poprawnie zainstalowana.");
+    }
+
+    public void installAnApp(String appName, String appVersion){
+        System.out.println("Przyjmuję nazwę aplikacji do zainstalowania oraz jej wersję...");
+        this.appName = appName;
+        this.appVersion = appVersion;
+        System.out.println("Instaluję aplikację...");
+        System.out.println("Aplikacja: " + this.appName + " w wersji " + this.appVersion +" została poprawnie zainstalowana.");
+    }
+
+    public void installAnApp(String appName, String appVersion, String serverAddress){
+        System.out.println("Przyjmuję nazwę aplikacji do zainstalowania, jej wersję oraz adres serwera danych...");
+        this.appName = appName;
+        this.appVersion = appVersion;
+        this.serverAddress = serverAddress;
+        System.out.println("Instaluję aplikację...");
+        System.out.println("Aplikacja: " + this.appName + " w wersji " + this.appVersion +" została poprawnie zainstalowana z serwera " + this.serverAddress);
+    }
+
+    public void installAnApp(List<String> appNameList){
+        this.appNameList = appNameList;
+        for(int i = 0; i <= this.appNameList.size(); i++){
+            System.out.println("Instaluję aplikację o nazwie: " + this.appNameList.get(i));
+        }
+    }
+
+    public void installAnApp(URL url){
+        URL appUrl = url;
+        System.out.println("Wprowadzono adres: " + url);
+        /*
+        System.out.println("Pobieram i instaluję plik z adresu: " + defaultserverAddress);
+        System.out.println("Domyślny protokół: " + defaultProtocol);
+        System.out.println("Wersja oprogramowania: " + defaultVersionName);
+        */
+    }
+
+
 }

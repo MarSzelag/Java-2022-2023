@@ -1,9 +1,9 @@
 package devices;
 
-import animals.Human;
+import creatures.Human;
 import interfaces.Saleable;
 
-public class Car extends Device implements Saleable {
+public abstract class Car extends Device implements Saleable {
     Double weight;
     Integer speed;
     Double value = 0.0;
@@ -71,5 +71,7 @@ public class Car extends Device implements Saleable {
             System.out.println("Gratuluję udanej transakcji!!!");
         } else System.out.println("Coś w systemie poszło nie tak.");
     }
+
+    abstract void refuel();
 
 }

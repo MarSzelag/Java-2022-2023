@@ -1,10 +1,11 @@
-package animals;
+package creatures;
 
 import interfaces.Saleable;
 
-public class Animal implements Saleable {
+public abstract class Animal implements Saleable, Edible, Feedable {
     final String species;
-    private Double weight;
+    protected Double weight;
+
     Boolean isAlive;
     Human owner;
 
@@ -16,7 +17,8 @@ public class Animal implements Saleable {
 
     }
 
-    void feed(
+    @Override
+    public void feed(
     ) {
         if (this.isAlive) {
             System.out.println("Żyjęęęę!!!");
@@ -25,10 +27,36 @@ public class Animal implements Saleable {
         } else {
             System.out.println("Klapa, nie ma go już pośród żywych.");
         }
-
     }
+    /*
+@Override
+    public void feed(Double foodweight)(
+    ) {
+        if (this.isAlive) {
+            System.out.println("Żyjęęęę!!!");
+            this.weight += 0.5;
+            System.out.println("Dzięki za żarło :) ");
+        } else {
+            System.out.println("Klapa, nie ma go już pośród żywych.");
+        }
+    }*/
 
+void takeforWalk(Double WALK_DISTANCE){// Dodane Double distance?????
+    if (this.isAlive) {
+        System.out.println("Idziemy na spacer.");
+        System.out.println("Pies pobiegał i schudł " + (this.weight -= 0.5) + " kg.");
+        System.out.println("Przebiegł " + WALK_DISTANCE);
 
+        if (this.weight <= 0) {
+            this.isAlive = false;
+            System.out.println(this.weight);
+            System.out.println("Biedaczysko. Za bardzo się nabiegał i zmarł.");
+        }
+    } else {
+        System.out.println(this.weight);
+        System.out.println("On jest martwy, wzywamy policję!!!");
+    }
+}
     void takeForWalk() {
         if (this.isAlive) {
             System.out.println("Idziemy na spacer.");
@@ -69,11 +97,11 @@ public class Animal implements Saleable {
             System.out.println("Sprzedający nie posiada zwierzęcia na sprzedaż");
         } else if (seller.equals(buyer)) {
             System.out.println("Nie możesz odsprzedawać sam sobie.");
-        } else if (buyer.getCash() < price) { //Czy da się uniknąć błędu przy zakupie, jeśli buyer.getCash() == null bez inicjalizacji cash w Human? Jakim warunkiem to sprawdzić?
+        } else if (buyer.getCash() < price) {
             System.out.println("Nie masz wystarczającej ilości pieniędzy. Za taką kwotę nie sprzedam zwierzaka.");
         } else if (price <= 0.00) {
             System.out.println("Coś jest nie tak z ceną. Powinna być większa niż 0.");
-        } else if (seller.getPet().getClass() != null)
+        } else if (seller.getPet().getClass() != null) //Zmienić .getClass na instanceOf --> if(this instanceOf Huma){ }
             if (seller.getPet().getClass() == Human.class) {
                 System.out.println("Tej, ale ludzi nie można sprzedawać... ani kupować.");
             } else {
@@ -87,4 +115,13 @@ public class Animal implements Saleable {
             }
         else System.out.println("Coś w systemie poszło nie tak.");
     }
+
+    @Override
+    public void beEaten() {
+        this.isAlive = false;
+        this.weight = 0.0;
+        System.out.println("Żegnaj złoczyńco");
+
+    }
+
 }
