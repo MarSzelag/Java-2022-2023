@@ -51,26 +51,32 @@ public abstract class Car extends Device implements Saleable {
                 value.doubleValue() == car.value.doubleValue();
     }
 
+
     @Override
     public void sell(Human seller, Human buyer, Double price) {
-        if (seller.getCar() == null) {
-            System.out.println("Sprzedający nie posiada samochodu na sprzedaż");
-        } else if (seller.equals(buyer)) {
-            System.out.println("Nie możesz odsprzedawać sam sobie.");
-        } else if (buyer.getCash() < price) {
-            System.out.println("Nie masz wystarczającej ilości pieniędzy. Za taką kwotę nie sprzedam samochodu.");
-        } else if (price <= 0.00) {
-            System.out.println("Coś jest nie tak z ceną. Powinna być większa niż 0.");
-        } else if (seller.getCar().getClass() != null) {
-            System.out.println("Pobieram pieniądze od kupującego i przekazuję sprzedającemu");
-            buyer.setCash(-price);
-            seller.setCash(price);
-            System.out.println("Przekazuję samochód. Udanej jazdy!");
-            buyer.setCar(seller.getCar());
-            seller.setCar(null);
-            System.out.println("Gratuluję udanej transakcji!!!");
-        } else System.out.println("Coś w systemie poszło nie tak.");
+
+        //if (seller.isCarInGarage() && buyer.isThereSpaceInGarage()) {
+            if (seller.equals(buyer)) {
+                System.out.println("Nie możesz odsprzedawać sam sobie.");
+            } else if (buyer.getCash() < price) {
+                System.out.println("Nie masz wystarczającej ilości pieniędzy. Za taką kwotę nie sprzedam samochodu.");
+            } else if (price <= 0.00) {
+                System.out.println("Coś jest nie tak z ceną. Powinna być większa niż 0.");
+            } else if(seller.isCarInGarage(this) && buyer.isThereSpaceInGarage()){ //if (seller.getCar().getClass() != null) {
+                System.out.println("Pobieram pieniądze od kupującego i przekazuję sprzedającemu");
+                buyer.setCash(-price);
+                seller.setCash(price);
+                System.out.println("Przekazuję samochód. Udanej jazdy!");
+                /*buyer.setCar(seller.getCar());
+                seller.setCar(null);*/
+
+                seller.removeCarFromGarage(this); //Czy tutaj będzie potrzebny Car temp?
+                buyer.addACar(this);
+                System.out.println("Gratuluję udanej transakcji!!!");
+            } else System.out.println("Coś w systemie poszło nie tak.");
+        //}
     }
+
 
     abstract void refuel();
 

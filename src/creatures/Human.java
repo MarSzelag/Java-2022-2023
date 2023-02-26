@@ -7,27 +7,26 @@ public class Human extends Animal {
     String name;
     String surname;
     private Animal pet;
-    private Car car;
+    // private Car car;
+    private Car[] garage = new Car[3];
     private Phone phone;
     private Double salary = 0.0;
     private Double cash = 0.00;
 
-
-    public void setCar(Car car) {
-        if (car == null) {
-
-        } else if (getSalary() >= car.getValue()) {
-            System.out.println("Gratulacje! Udało się kupić samochód za gotówkę!");
-            this.car = car;
-        } else if (getSalary() >= car.getValue() / 12) {
-            System.out.println("Udało się kupić samochód na kredyt.");
-            this.car = car;
-        } else System.out.println("Chyba czas poprosić o podwyżkę.");
-        this.car = car;
+    public void setCar(Car car, int position) {
+        if (this.garage[position] != null) {
+            System.out.println("To miejsce w garażu jest już zamknięte, musisz wybrać inne miejsce.");
+        } else {
+            this.garage[position] = car;
+        }
     }
 
-    public Car getCar() {
-        return car;
+    public Car getCar(int position) {
+        if (this.garage == null) {
+            System.out.println("Na tej pozycji w garażu nie ma żadnego samochodu");
+            return null;
+        } else
+            return garage[position];
     }
 
     public void setPet(Animal pet) {
@@ -50,6 +49,13 @@ public class Human extends Animal {
         super(species, weight, isAlive);
         this.name = name;
         this.surname = surname;
+    }
+
+    public Human(String species, Double weight, Boolean isAlive, String name, String surname, int garageSize) {
+        super(species, weight, isAlive);
+        this.name = name;
+        this.surname = surname;
+        this.garage = new Car[garageSize];
     }
 
     public void setPhone(Phone phone) {
@@ -76,18 +82,94 @@ public class Human extends Animal {
         }
     }
 
+    public void sortCarsInGarageByDate() {
+        Car temp = null;
+
+        for (int i = 1; i <= this.garage.length - 1; i++) {
+            for (int j = 1; j <= this.garage.length - 1; j++) {
+            if (this.garage[j].getYearOfProduction() != null && this.garage[j].getYearOfProduction() > this.garage[j - 1].getYearOfProduction()) {
+                temp = this.garage[j - 1];
+                this.garage[j - 1] = this.garage[j];
+                this.garage[j] = temp;
+            }
+            }
+        }
+    }
+
+    public Double valueOfAllCarsInGarage() {
+        Double result = 0.0;
+        for (int i = 0; i <= this.garage.length - 1; i++) {
+            result = result + this.garage[i].getValue();
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
-        return "Imię: " + name + ", nazwisko: " + surname + ", pensja: " + salary + ", samochód: " + car; //Dlaczego ó i kawałek dalej w konsoli jest podkreślone na niebiesko?
+        String allCars = "";
+        for(int i = 0; i < this.garage.length; i++){
+            if(this.garage[i] != null) {
+                allCars = allCars + "\n Miejsce nr " + (i + 1) + " w garażu: " + this.garage[i].toString() + "";
+            }
+        }
+        return "Imię: " + name + ", nazwisko: " + surname + ", pensja: " + salary + ", samochód: " + allCars;
     }
 
     @Override
     public void feed() {
-        System.out.println("Wszamam " );
+        System.out.println("Wszamam ");
     }
 
     @Override
     public void feed(Double foodWeight) {
-        System.out.println("Wszamam " + foodWeight + " kg żarła." );
+        System.out.println("Wszamam " + foodWeight + " kg żarła.");
     }
+
+    public boolean isCarInGarage(Car car){
+        boolean isThereACar = false;
+        for(int i = 0; i < this.garage.length; i++){
+            if(this.garage[i] != null && car.equals(this.garage[i])) {
+                System.out.println("Tak mamy ten samochód w garażu.");
+                isThereACar = true;
+            }
+            else{
+                System.out.println("W garażu nie ma żadnego samochodu.");
+            }
+        }
+        return isThereACar;
+    }
+
+    public boolean isThereSpaceInGarage(){
+        boolean isThereASpace = false;
+        for(int i = 0; i < this.garage.length; i++){
+            if(this.garage[i] == null)
+                isThereASpace = true;
+        }
+        if(isThereASpace)
+            System.out.println("W garażu jest wolne miejsce na samochód.");
+        else
+            System.out.println("Trzeba powiększyć garaż. Do tego nie da się upchnąć kolejnego auta.");
+        return isThereASpace;
+    }
+
+    public void removeCarFromGarage(Car car){
+        for(int i = 0; i < this.garage.length; i++){
+            if(this.garage[i] != null) {
+                if (this.garage[i].equals(car)) {
+                    this.garage[i] = null;
+                }
+            }
+        }
+    }
+
+    public void addACar(Car car){
+        boolean flag = false;
+        for(int i = 0; i < this.garage.length; i++){
+            if(this.garage[i] == null && flag == false){
+                this.garage[i] = car;
+                flag = true;
+            }
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package devices;
 
+import creatures.Human;
+
 public class Diesel extends Car{
     Double fuelTankSize;
 

@@ -1,6 +1,6 @@
 package devices;
 
-public class Electric extends Car{
+public class Electric extends Car {
     Double voltage;
 
     public Electric(String producer, String model, Integer yearOfProduction, Double weight, Integer speed, Double voltage) {
@@ -14,10 +14,10 @@ public class Electric extends Car{
         System.out.println("Tankuję");
     }
 
-@Override
-public void turnOn() {
-    System.out.println("Przekręcam kluczyk");
-    System.out.println("Silnik elektryczny uruchomiony");
-}
+    @Override
+    public void turnOn() {
+        System.out.println("Przekręcam kluczyk");
+        System.out.println("Silnik elektryczny uruchomiony");
+    }
 
 }

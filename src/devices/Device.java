@@ -7,6 +7,8 @@ public abstract class Device implements Saleable {
     final String model;
     final Integer yearOfProduction;
 
+    private Double value;
+
 
     public String getProducer() {
         return this.producer;
@@ -18,6 +20,14 @@ public abstract class Device implements Saleable {
 
     public Integer getYearOfProduction() {
         return yearOfProduction;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public Device(String producer, String model, Integer yearOfProduction) {
