@@ -3,6 +3,8 @@ package creatures;
 import devices.Car;
 import devices.Phone;
 
+import java.util.Date;
+
 public class Human extends Animal {
     String name;
     String surname;
@@ -12,6 +14,14 @@ public class Human extends Animal {
     private Phone phone;
     private Double salary = 0.0;
     private Double cash = 0.00;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
 
     public void setCar(Car car, int position) {
         if (this.garage[position] != null) {
@@ -112,7 +122,7 @@ public class Human extends Animal {
                 allCars = allCars + "\n Miejsce nr " + (i + 1) + " w garażu: " + this.garage[i].toString() + "";
             }
         }
-        return "Imię: " + name + ", nazwisko: " + surname + ", pensja: " + salary + ", samochód: " + allCars;
+        return "Imię: " + name + ", nazwisko: " + surname + ", pensja: " + salary + ", zawartość garażu: " + allCars;
     }
 
     @Override
@@ -129,13 +139,16 @@ public class Human extends Animal {
         boolean isThereACar = false;
         for(int i = 0; i < this.garage.length; i++){
             if(this.garage[i] != null && car.equals(this.garage[i])) {
-                System.out.println("Tak mamy ten samochód w garażu.");
                 isThereACar = true;
             }
-            else{
-                System.out.println("W garażu nie ma żadnego samochodu.");
-            }
         }
+
+        if(isThereACar){
+            System.out.println("Tak mamy ten samochód w garażu.");
+        }
+        else
+            System.out.println("W garażu nie ma żadnego samochodu.");
+
         return isThereACar;
     }
 
@@ -146,7 +159,7 @@ public class Human extends Animal {
                 isThereASpace = true;
         }
         if(isThereASpace)
-            System.out.println("W garażu jest wolne miejsce na samochód.");
+            System.out.println("W garażu kupującego jest wolne miejsce na samochód.");
         else
             System.out.println("Trzeba powiększyć garaż. Do tego nie da się upchnąć kolejnego auta.");
         return isThereASpace;
@@ -167,6 +180,10 @@ public class Human extends Animal {
         for(int i = 0; i < this.garage.length; i++){
             if(this.garage[i] == null && flag == false){
                 this.garage[i] = car;
+                //car.addOwner(this);
+                if(car.numberOfTransactionsInt() == 0) {
+                    car.addOwnerTransaction(new Human("Człowiek", 0.0, true, "Salon", "Salon"), this, null, new Date());
+                }
                 flag = true;
             }
         }
