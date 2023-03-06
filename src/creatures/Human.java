@@ -55,30 +55,13 @@ public class Human extends Animal {
         return cash;
     }
 
-    public Human(String species, Double weight, Boolean isAlive, String name, String surname) {
-        super(species, weight, isAlive);
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public Human(String species, Double weight, Boolean isAlive, String name, String surname, int garageSize) {
-        super(species, weight, isAlive);
-        this.name = name;
-        this.surname = surname;
-        this.garage = new Car[garageSize];
-    }
-
     public void setPhone(Phone phone) {
         this.phone = phone;
+        this.phone.setOwner(this);
     }
 
     public Phone getPhone() {
         return this.phone;
-    }
-
-
-    public Double getSalary() {
-        return salary;
     }
 
     public void setSalary(Double salary) {
@@ -92,16 +75,35 @@ public class Human extends Animal {
         }
     }
 
+    public Double getSalary() {
+        return salary;
+    }
+
+
+    public Human(String species, Double weight, Boolean isAlive, String name, String surname) {
+        super(species, weight, isAlive);
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public Human(String species, Double weight, Boolean isAlive, String name, String surname, int garageSize) {
+        super(species, weight, isAlive);
+        this.name = name;
+        this.surname = surname;
+        this.garage = new Car[garageSize];
+    }
+
+
     public void sortCarsInGarageByDate() {
         Car temp = null;
 
         for (int i = 1; i <= this.garage.length - 1; i++) {
             for (int j = 1; j <= this.garage.length - 1; j++) {
-            if (this.garage[j].getYearOfProduction() != null && this.garage[j].getYearOfProduction() > this.garage[j - 1].getYearOfProduction()) {
-                temp = this.garage[j - 1];
-                this.garage[j - 1] = this.garage[j];
-                this.garage[j] = temp;
-            }
+                if (this.garage[j].getYearOfProduction() != null && this.garage[j].getYearOfProduction() > this.garage[j - 1].getYearOfProduction()) {
+                    temp = this.garage[j - 1];
+                    this.garage[j - 1] = this.garage[j];
+                    this.garage[j] = temp;
+                }
             }
         }
     }
@@ -117,8 +119,8 @@ public class Human extends Animal {
     @Override
     public String toString() {
         String allCars = "";
-        for(int i = 0; i < this.garage.length; i++){
-            if(this.garage[i] != null) {
+        for (int i = 0; i < this.garage.length; i++) {
+            if (this.garage[i] != null) {
                 allCars = allCars + "\n Miejsce nr " + (i + 1) + " w garażu: " + this.garage[i].toString() + "";
             }
         }
@@ -135,39 +137,38 @@ public class Human extends Animal {
         System.out.println("Wszamam " + foodWeight + " kg żarła.");
     }
 
-    public boolean isCarInGarage(Car car){
+    public boolean isCarInGarage(Car car) {
         boolean isThereACar = false;
-        for(int i = 0; i < this.garage.length; i++){
-            if(this.garage[i] != null && car.equals(this.garage[i])) {
+        for (int i = 0; i < this.garage.length; i++) {
+            if (this.garage[i] != null && car.equals(this.garage[i])) {
                 isThereACar = true;
             }
         }
 
-        if(isThereACar){
+        if (isThereACar) {
             System.out.println("Tak mamy ten samochód w garażu.");
-        }
-        else
+        } else
             System.out.println("W garażu nie ma żadnego samochodu.");
 
         return isThereACar;
     }
 
-    public boolean isThereSpaceInGarage(){
+    public boolean isThereSpaceInGarage() {
         boolean isThereASpace = false;
-        for(int i = 0; i < this.garage.length; i++){
-            if(this.garage[i] == null)
+        for (int i = 0; i < this.garage.length; i++) {
+            if (this.garage[i] == null)
                 isThereASpace = true;
         }
-        if(isThereASpace)
+        if (isThereASpace)
             System.out.println("W garażu kupującego jest wolne miejsce na samochód.");
         else
             System.out.println("Trzeba powiększyć garaż. Do tego nie da się upchnąć kolejnego auta.");
         return isThereASpace;
     }
 
-    public void removeCarFromGarage(Car car){
-        for(int i = 0; i < this.garage.length; i++){
-            if(this.garage[i] != null) {
+    public void removeCarFromGarage(Car car) {
+        for (int i = 0; i < this.garage.length; i++) {
+            if (this.garage[i] != null) {
                 if (this.garage[i].equals(car)) {
                     this.garage[i] = null;
                 }
@@ -175,13 +176,13 @@ public class Human extends Animal {
         }
     }
 
-    public void addACar(Car car){
+    public void addACar(Car car) {
         boolean flag = false;
-        for(int i = 0; i < this.garage.length; i++){
-            if(this.garage[i] == null && flag == false){
+        for (int i = 0; i < this.garage.length; i++) {
+            if (this.garage[i] == null && flag == false) {
                 this.garage[i] = car;
                 //car.addOwner(this);
-                if(car.numberOfTransactionsInt() == 0) {
+                if (car.numberOfTransactionsInt() == 0) {
                     car.addOwnerTransaction(new Human("Człowiek", 0.0, true, "Salon", "Salon"), this, null, new Date());
                 }
                 flag = true;

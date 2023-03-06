@@ -3,6 +3,7 @@ package devices;
 import creatures.Human;
 import interfaces.Saleable;
 
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -108,14 +109,28 @@ public abstract class Car extends Device implements Saleable {
 
 
     @Override
-    public void sell(Human buyer, Human seller, Double price) {
+    public void sell(Human buyer, Human seller, Double price) throws Exception {
 
         if (seller.equals(buyer)) {
             System.out.println("Nie możesz odsprzedawać sam sobie.");
         } else if (buyer.getCash() < price) {
-            System.out.println("Nie masz wystarczającej ilości pieniędzy. Za taką kwotę nie sprzedam samochodu.");
+            throw new Exception("Kupujący nie posiada wystarczającej ilości gotówki!");
         } else if (price <= 0.00) {
             System.out.println("Coś jest nie tak z ceną. Powinna być większa niż 0.");
+        } else if(!seller.isCarInGarage(this)) {
+            throw new Exception("W garażu sprzedającego nie ma żadnego samochodu! Nie ma czego sprzedawać!!!");
+        } else if(!buyer.isThereSpaceInGarage()) {
+            throw new Exception("W garażu kupującego nie ma miejsca na nowe samochody!!!");
+        } else if (this.transactions.get(this.transactions.size() - 1).getBuyer().equals(seller)) {
+            System.out.println("Pobieram pieniądze od kupującego i przekazuję sprzedającemu");
+            buyer.setCash(-price);
+            seller.setCash(price);
+            System.out.println("Przekazuję samochód. Udanej jazdy!");
+            seller.removeCarFromGarage(this);
+            buyer.addACar(this);
+            this.addOwnerTransaction(seller, buyer, price, new Date());
+            System.out.println("Gratuluję udanej transakcji!!!");
+            /*
         } else if (seller.isCarInGarage(this) && buyer.isThereSpaceInGarage() && this.transactions.get(this.transactions.size() - 1).getBuyer().equals(seller)) {//this.ownersList.get(this.ownersList.size() - 1).equals(seller)){
             System.out.println("Pobieram pieniądze od kupującego i przekazuję sprzedającemu");
             buyer.setCash(-price);
@@ -125,6 +140,7 @@ public abstract class Car extends Device implements Saleable {
             buyer.addACar(this);
             this.addOwnerTransaction(seller, buyer, price, new Date());
             System.out.println("Gratuluję udanej transakcji!!!");
+             */
         } else System.out.println("Coś w systemie poszło nie tak.");
     }
 

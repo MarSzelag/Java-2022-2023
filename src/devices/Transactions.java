@@ -17,6 +17,14 @@ public class Transactions {
         this.dateOfSell = dateOfSell;
     }
 
+    public void setBuyer(Human buyer) {
+        this.buyer = buyer;
+    }
+
+    public void setSeller(Human seller) {
+        this.seller = seller;
+    }
+
     public Human getBuyer() {
         return buyer;
     }
@@ -25,16 +33,21 @@ public class Transactions {
         return seller;
     }
 
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Double getPrice() {
         return price;
+    }
+
+    public void setDateOfSell(Date dateOfSell) {
+        this.dateOfSell = dateOfSell;
     }
 
     public Date getDateOfSell() {
         return dateOfSell;
     }
-
-
-
 
     @Override
     public String toString() {
